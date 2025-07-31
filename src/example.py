@@ -51,7 +51,11 @@ def create_laptop_borrow_contract(
     # Signature and date
     doc.add_paragraph("\n\nSignature: _________________________")
     doc.add_paragraph("Date Signed: _________________________")
-
+    
+    # Test logo image
+    pic = doc.add_picture("assets/logo.png")
+    last = doc.paragraphs[-1]
+    
     # Save path
     if not save_path:
         desktop = os.path.join(os.path.expanduser("~"), "Desktop")
