@@ -35,21 +35,24 @@ def create_laptop_borrow_contract(
     text_contract.font.color.rgb = RGBColor(0, 0, 0)
     text_contract.bold = True
     contract.alignment = WD_ALIGN_PARAGRAPH.CENTER
-
+    
+    # Document context
     doc.add_paragraph(f"Date: {date}")
     doc.add_paragraph(f"Borrower's Name: {name}")
     doc.add_paragraph(f"Laptop Model: {laptop_model}")
     doc.add_paragraph(f"Expected Return Date: {return_date}")
-
+    
+    # Contract formula
     doc.add_paragraph(
         "I acknowledge receipt of the above-listed laptop and agree to return it in good condition by the return date. "
         "I accept responsibility for loss or damage to the equipment."
     )
-
+    
+    # Signature and date
     doc.add_paragraph("\n\nSignature: _________________________")
     doc.add_paragraph("Date Signed: _________________________")
 
-    # Determine save path
+    # Save path
     if not save_path:
         desktop = os.path.join(os.path.expanduser("~"), "Desktop")
         filename = f"Laptop_Contract_{name.replace(' ', '_')}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.docx"
