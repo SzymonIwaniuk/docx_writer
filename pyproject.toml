@@ -9,10 +9,11 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
 	"fastapi[standard] (>=0.115.11,<0.116.0)",
+	"python-docx==1.2.0"
 ]
 
 [tool.poetry]
-packages = [{include = "docx_writer", from = "src"}]
+packages = [{include = "src"}]
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
