@@ -1,0 +1,44 @@
+[project]
+name = "docx-writer"
+version = "0.1.0"
+description = "Liteweight api for generating custom docx documents for SaMASZ"
+authors = [
+    {name = "SzymonIwaniuk",email = "s.f.iwaniuk@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+	"fastapi[standard] (>=0.115.11,<0.116.0)",
+]
+
+[tool.poetry]
+packages = [{include = "docx_writer", from = "src"}]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+isort = "^6.0.1"
+black = "^25.1.0"
+pytest = "^8.3.5"
+flake8 = "^7.0.0"
+flake8-pyproject = "^1.2.3"
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests/",
+]
+
+pythonpath = [
+    "src",
+]
+
+[tool.flake8]
+max-line-length = 120
+extend-ignore = ["E203", "E401"]
+exclude = [".venv"]
+per-file-ingores = ["__init__.py"]
+
+[tool.black]
+line-length = 120
