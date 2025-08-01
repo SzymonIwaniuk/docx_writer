@@ -1,0 +1,4 @@
+- decouple core logic
+-- devide example for save function and template, optional create table func
+- create fast api endpoints
+- create unit tests for template 

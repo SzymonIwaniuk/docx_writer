@@ -32,11 +32,11 @@ def create_laptop_borrow_contract(
     else:
         doc = Document()
 
-    # Add logo on the top and center it
-    logo = doc.add_heading("", 0)
-    logo_color = logo.add_run("SaMASZ Sp z.o.o")
-    logo_color.font.color.rgb = RGBColor(0, 128, 0)
-    logo.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    header = doc.sections[0].header
+    paragraph = header.paragraphs[0]
+
+    logo_run = paragraph.add_run()
+    logo_run.add_picture("assets/logo2.png")
 
     top_text = (
         "SaMASZ sp. z o.o. 16-060, Zabłudów, ul Trawiasta 1\n"
@@ -86,7 +86,7 @@ def create_laptop_borrow_contract(
     city_and_date_text.font.color.rgb = RGBColor(0, 0, 0)
     city_and_date_text.font.name = "Times New Roman"
     city_and_date_text.font.size = Pt(11)
-    city_and_date.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    city_and_date.alignment = WD_ALIGN_PARAGRAPH.RIGHT
 
     # Empty line
     doc.add_paragraph("")
@@ -201,7 +201,21 @@ def create_laptop_borrow_contract(
     giver_taker_text.font.size = Pt(11)
 
 
-    
+    bot_text = ("\n"
+    "\n"
+    "\n"
+    "\n"
+    "....................................................                                                                       ....................................................\n"
+    "(podpis osoby uprawnionej do składania                                                 (podpis osoby upoważnionej\n"
+    "oświadczeń woli w imieniu Wykonawcy)                                                   ze strony Zamawiającego)" 
+    )
+
+    bot_paragraph = doc.add_paragraph()
+    bot_text = bot_paragraph.add_run(bot_text)
+    bot_text.font.name = "Times New Roman"
+    bot_text.font.bold = True
+    bot_text.font.size = Pt(9)
+
     # Save path
     if not save_path:
         desktop = os.path.join(os.path.expanduser("~"), "Desktop")
