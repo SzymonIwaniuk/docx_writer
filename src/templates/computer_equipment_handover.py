@@ -4,7 +4,8 @@ from typing import Optional
 
 from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
-from docx.shared import Pt, RGBColor
+from docx.shared import RGBColor
+
 
 def create_laptop_borrow_contract(
     name: str,
@@ -14,60 +15,18 @@ def create_laptop_borrow_contract(
     template_path: Optional[str] = None,
     save_path: Optional[str] = None,
 ) -> str:
-    
+
     # Load template or create new doc
     if template_path and os.path.exists(template_path):
         doc = Document(template_path)
     else:
         doc = Document()
-    
+
     # Add logo on the top and center it
     logo = doc.add_heading("", 0)
     logo_color = logo.add_run("SaMASZ Sp z.o.o")
     logo_color.font.color.rgb = RGBColor(0, 128, 0)
-    logo.alignment = WD_ALIGN_PARAGRAPH.LEFT
-    
-
-    top_text = (
-        "SaMASZ sp. z o.o. 16-060, Zabłudów, ul Trawiasta 1\n"
-        "tel.: +48 85 664 70 31, fax: +48 85 664 7041, e-mail: samasz@samasz.pl\n"
-        "KRS:0000011382, Sąd Rejonowy w Białymstoku, XII Wydział Gospodarczy Krajowego Rejestru Sądowego\n"
-        "Kapitał zakładowy: 10 000 000zł."
-    )
-    
-    top_paragraph = doc.add_paragraph()
-    top_run = top_paragraph.add_run(top_text)
-    font = top_run.font
-    font.name = 'Arial'
-    font.size = Pt(7.5)
-    font.bold = True
-    font.color.rgb = RGBColor(0, 128, 0)  # Green
-    
-    # Spacing
-    top_paragraph_format = top_paragraph.paragraph_format
-    top_paragraph_format.line_spacing = Pt(14)
-
-    """
-    PROTOKÓŁ PRZEKAZANIA 
-    SPRZĘTU KOMPUTEROWEGO 
-    """
-
-    top_protocol = doc.add_paragraph("")
-    top_text_protocol = top_protocol.add_run("PROTOKÓŁ PRZEKAZANIA")
-    top_text_protocol.font.color.rgb = RGBColor(0, 0, 0)
-    top_text_protocol.bold = True
-    top_text_protocol.font.name = "Times New Roman"
-    top_text_protocol.font.size = Pt(14.5)
-    top_text_protocol.font.bold = True
-    top_protocol.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    
-    bot_protocol = doc.add_paragraph("")
-    bot_text_protocol = bot_protocol.add_run("SPRZĘTU KOMPUTEROWEGO")
-    bot_text_protocol.font.color.rgb = RGBColor(0, 0, 0)
-    bot_text_protocol.font.name = "Times New Roman"
-    bot_text_protocol.font.size = Pt(11)
-    bot_protocol.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    
+    logo.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
     # Laptop borrowing contract title
     contract = doc.add_heading("", 2)
