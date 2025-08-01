@@ -183,11 +183,25 @@ def create_laptop_borrow_contract(
                 start={"sz": 8, "val": "single", "color": "FFFFFF"},
                 end={"sz": 8, "val": "single", "color": "FFFFFF"},
             )
+    
+    # Empty lines x 3
+    doc.add_paragraph("")
+    doc.add_paragraph("")
+    doc.add_paragraph("")
+    
+    """
+    Przekazujący: 	 Odbierający
+    """
+    
+    giver_taker = doc.add_paragraph("")
+    giver_taker_text = giver_taker.add_run("PRZEKAZUJACY: 	                                                                             ODBIERAJACY")
+    giver_taker_text.font.color.rgb = RGBColor(0, 0, 0)
+    giver_taker_text.font.name = "Times New Roman"
+    giver_taker_text.font.bold = True
+    giver_taker_text.font.size = Pt(11)
 
-    # Test logo image
-    pic = doc.add_picture("assets/logo.png")
-    last = doc.paragraphs[-1]
 
+    
     # Save path
     if not save_path:
         desktop = os.path.join(os.path.expanduser("~"), "Desktop")
