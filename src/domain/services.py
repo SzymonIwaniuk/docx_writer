@@ -1,12 +1,30 @@
 import datetime
 import os
-from typing import Optional
 
 from docx import Document
 
 
-def pass_item_contract(it_worker: str, borrower: str, date: Optional[str], id: str, item: str, quantity: str) -> None:
-    # Temporary hardcoded
+def pass_item_contract(it_worker: str, borrower: str, id: str, item: str, quantity: str, date = None) -> str:
+
+    """
+    Generates a Word document contract for passing IT equipment to a borrower.
+
+    This function loads a predefined Word template, replaces placeholders with provided values,
+    and saves the filled document to the user's desktop with a filename based on the borrower's name and date.
+
+    Args:
+        it_worker (str): Name of the IT worker handing over the item.
+        borrower (str): Name of the person receiving the item.
+        date (Optional[str]): Date of the handover. If None, defaults to today's date in YYYY-MM-DD format.
+        id (str): Identifier for the transaction or item.
+        item (str): Description of the item being handed over.
+        quantity (str): Quantity of the item being handed over.
+
+    Returns:
+    str: Path of saved docx file.
+    """
+
+    # Temporary hardcoded TODO
     doc = Document(r"src\templates\pass_item_template.docx")
 
     if date is None:
@@ -41,14 +59,3 @@ def pass_item_contract(it_worker: str, borrower: str, date: Optional[str], id: s
     doc.save(save_path)
     return save_path
 
-
-if __name__ == "__main__":
-
-    pass_item_contract(
-        it_worker="Szymon Iwaniuk",
-        borrower="Mike Wazowski",
-        date="2025-08-11",
-        id="K123",
-        item="Dell Laptop",
-        quantity="1",
-    )
