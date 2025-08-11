@@ -8,7 +8,7 @@ authors = [
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-	"fastapi[standard] (>=0.115.11,<0.116.0)",
+	"Django==5.2.5",
 	"python-docx==1.2.0"
 ]
 
