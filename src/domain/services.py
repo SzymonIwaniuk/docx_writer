@@ -5,9 +5,9 @@ from typing import Optional
 from docx import Document
 
 
-def fill_docx_template(it_worker: str, borrower: str, date: Optional[str], id: str, item: str, quantity: str) -> str:
+def pass_item_contract(it_worker: str, borrower: str, date: Optional[str], id: str, item: str, quantity: str) -> None:
     # Temporary hardcoded
-    doc = Document(r"C:\Users\admin\Desktop\pliki\docx_writer\src\templates\pass_item_template.docx")
+    doc = Document(r"src\templates\pass_item_template.docx")
 
     if date is None:
         date = datetime.datetime.today().strftime("%Y-%m-%d")
@@ -39,13 +39,12 @@ def fill_docx_template(it_worker: str, borrower: str, date: Optional[str], id: s
 
     # Save document
     doc.save(save_path)
-    print(f"Document saved to: {save_path}")
     return save_path
 
 
 if __name__ == "__main__":
 
-    fill_docx_template(
+    pass_item_contract(
         it_worker="Szymon Iwaniuk",
         borrower="Mike Wazowski",
         date="2025-08-11",
