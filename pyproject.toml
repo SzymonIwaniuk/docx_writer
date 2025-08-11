@@ -32,7 +32,7 @@ testpaths = [
 ]
 
 pythonpath = [
-    "src",
+    "src/",
 ]
 
 [tool.flake8]
