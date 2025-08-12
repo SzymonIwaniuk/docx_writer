@@ -1,17 +1,18 @@
 import datetime
 import os
-
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx import Document
 
 
+# Helper function for set borders of table
 def set_cell_border(cell, size="4", color="000000"):
     """
-    Set cell borders to 1pt (size=4 in Word units).
+    Set cell borders to 1 pt.
     """
     tc = cell._tc
     tcPr = tc.get_or_add_tcPr()
+
     for border_name in ["top", "left", "bottom", "right"]:
         element = OxmlElement(f"w:{border_name}")
         element.set(qn("w:val"), "single")
@@ -19,9 +20,11 @@ def set_cell_border(cell, size="4", color="000000"):
         element.set(qn("w:space"), "0")
         element.set(qn("w:color"), color)
         tcBorders = tcPr.find(qn("w:tcBorders"))
+
         if tcBorders is None:
             tcBorders = OxmlElement("w:tcBorders")
             tcPr.append(tcBorders)
+
         tcBorders.append(element)
 
 
@@ -132,13 +135,18 @@ def change_item_contract(
     
 def utilization_items_contract(
     items: list,
-    it_workers: list,
     date=None
 ) -> str:
     doc = Document(r"src\templates\utilization_items_template.docx")
 
     if date is None:
         date = datetime.datetime.today().strftime("%Y-%m-%d")
+
+    # Replace date
+    for paragraph in doc.paragraphs:
+        for run in paragraph.runs:
+            if "{{date}}" in paragraph.text:
+                paragraph.text = paragraph.text.replace("{{date}}", date)
 
     if doc.tables:
         table = doc.tables[0]
@@ -158,33 +166,4 @@ def utilization_items_contract(
     # Save document
     doc.save(save_path)
     return save_path
-
-
-if __name__ == '__main__':
-    items = [
-        {
-            "id": "001",
-            "name": "Laptop Dell Latitude 5420",
-            "inventarization_num": "INV-2023-001",
-            "ndate": "2025-08-01"
-        },
-        {
-            "id": "002",
-            "name": "Monitor LG UltraFine 27''",
-            "inventarization_num": "INV-2023-002",
-            "date": "2025-08-02"
-        },
-        {
-            "id": "003",
-            "name": "Keyboard Logitech MX Keys",
-            "inventarization_num": "INV-2023-003",
-            "date": "2025-08-03"
-        }
-    ]
-
-    it_workers = [
-        "Szymon Iwaniuk",
-        "Mike Wazowski",
-    ]
-
-    utilization_items_contract(items, it_workers)
+  

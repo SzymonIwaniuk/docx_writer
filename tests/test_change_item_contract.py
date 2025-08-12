@@ -9,10 +9,10 @@ def test_change_item_contract_content() -> None:
     data = {
         "it_worker": "Szymon Iwaniuk",
         "borrower": "Mike Wazowski",
-        "take_id": "T456",
-        "take_item": "Monitor LG UltraWide",
+        "take_id": "K123",
+        "take_item": "Laptop Asus 12345AB",
         "take_qty": "1",
-        "give_id": "G789",
+        "give_id": "K321",
         "give_item": "Laptop Dell 12345AB",
         "give_qty": "1",
         "date": "2025-08-11"
@@ -38,10 +38,10 @@ def test_change_item_contract_save_path() -> None:
     data = {
         "it_worker": "Szymon Iwaniuk",
         "borrower": "Mike Wazowski",
-        "take_id": "T456",
-        "take_item": "Monitor LG UltraWide",
+        "take_id": "K123",
+        "take_item": "Laptop Asus 12345AB",
         "take_qty": "1",
-        "give_id": "G789",
+        "give_id": "K321",
         "give_item": "Laptop Dell 12345AB",
         "give_qty": "1",
         "date": "2025-08-11"
@@ -61,12 +61,13 @@ def test_change_item_contract_fill_with_today_date() -> None:
     data = {
         "it_worker": "Szymon Iwaniuk",
         "borrower": "Mike Wazowski",
-        "take_id": "T456",
-        "take_item": "Monitor LG UltraWide",
+        "take_id": "K123",
+        "take_item": "Laptop Asus 12345AB",
         "take_qty": "1",
-        "give_id": "G789",
+        "give_id": "K321",
         "give_item": "Laptop Dell 12345AB",
         "give_qty": "1",
+        "date": None
     }
 
     creation_path = change_item_contract(**data)

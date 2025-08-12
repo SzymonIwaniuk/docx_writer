@@ -52,6 +52,7 @@ def test_pass_item_contract_save_path() -> None:
     # Delete file
     os.remove(creation_path)
 
+
 def test_pass_item_contract_fill_with_today_date() -> None:
     data = {
         "it_worker": "Szymon Iwaniuk",
@@ -69,3 +70,6 @@ def test_pass_item_contract_fill_with_today_date() -> None:
     date = datetime.datetime.today().strftime("%Y-%m-%d")
 
     assert date in content
+
+    # Delete file
+    os.remove(creation_path)
