@@ -1,0 +1,82 @@
+import pytest
+import os
+import datetime
+from src.domain.services import change_item_contract
+from docx import Document
+
+
+def test_change_item_contract_content() -> None:
+    data = {
+        "it_worker": "Szymon Iwaniuk",
+        "borrower": "Mike Wazowski",
+        "take_id": "T456",
+        "take_item": "Monitor LG UltraWide",
+        "take_qty": "1",
+        "give_id": "G789",
+        "give_item": "Laptop Dell 12345AB",
+        "give_qty": "1",
+        "date": "2025-08-11"
+    }
+
+    creation_path = change_item_contract(**data)
+    doc = Document(creation_path)
+
+    content = "\n".join([p.text for p in doc.paragraphs])
+    for table in doc.tables:
+        for row in table.rows:
+            for cell in row.cells:
+                content += "\n" + cell.text
+
+    for value in data.values():
+        assert value in content
+
+    # Delete file
+    os.remove(creation_path)
+
+
+def test_change_item_contract_save_path() -> None:
+    data = {
+        "it_worker": "Szymon Iwaniuk",
+        "borrower": "Mike Wazowski",
+        "take_id": "T456",
+        "take_item": "Monitor LG UltraWide",
+        "take_qty": "1",
+        "give_id": "G789",
+        "give_item": "Laptop Dell 12345AB",
+        "give_qty": "1",
+        "date": "2025-08-11"
+    }
+
+    creation_path = change_item_contract(**data)
+
+    assert os.path.exists(creation_path)
+    assert creation_path.endswith(".docx")
+    assert data["borrower"].replace(" ", "_") in creation_path
+
+    # Delete file
+    os.remove(creation_path)
+
+
+def test_change_item_contract_fill_with_today_date() -> None:
+    data = {
+        "it_worker": "Szymon Iwaniuk",
+        "borrower": "Mike Wazowski",
+        "take_id": "T456",
+        "take_item": "Monitor LG UltraWide",
+        "take_qty": "1",
+        "give_id": "G789",
+        "give_item": "Laptop Dell 12345AB",
+        "give_qty": "1",
+    }
+
+    creation_path = change_item_contract(**data)
+    doc = Document(creation_path)
+    content = "\n".join([p.text for p in doc.paragraphs])
+
+    today = datetime.datetime.today().strftime("%Y-%m-%d")
+    assert today in content
+
+    # Delete file
+    # os.remove(creation_path)
+
+

@@ -1,7 +1,28 @@
 import datetime
 import os
 
+from docx.oxml import OxmlElement
+from docx.oxml.ns import qn
 from docx import Document
+
+
+def set_cell_border(cell, size="4", color="000000"):
+    """
+    Set cell borders to 1pt (size=4 in Word units).
+    """
+    tc = cell._tc
+    tcPr = tc.get_or_add_tcPr()
+    for border_name in ["top", "left", "bottom", "right"]:
+        element = OxmlElement(f"w:{border_name}")
+        element.set(qn("w:val"), "single")
+        element.set(qn("w:sz"), size)
+        element.set(qn("w:space"), "0")
+        element.set(qn("w:color"), color)
+        tcBorders = tcPr.find(qn("w:tcBorders"))
+        if tcBorders is None:
+            tcBorders = OxmlElement("w:tcBorders")
+            tcPr.append(tcBorders)
+        tcBorders.append(element)
 
 
 def pass_item_contract(it_worker: str, borrower: str, id: str, item: str, quantity: str, date = None) -> str:
@@ -59,3 +80,111 @@ def pass_item_contract(it_worker: str, borrower: str, id: str, item: str, quanti
     doc.save(save_path)
     return save_path
 
+
+def change_item_contract(
+    it_worker: str,
+    borrower: str,
+    take_id: str,
+    take_item: str,
+    take_qty: str,
+    give_id: str,
+    give_item: str,
+    give_qty: str,
+    date = None
+) -> str:
+    doc = Document(r"src\templates\change_item_template.docx")
+
+    if date is None:
+        date = datetime.datetime.today().strftime("%Y-%m-%d")
+
+    replacements = {
+        "{{it_worker}}": it_worker,
+        "{{borrower}}": borrower,
+        "{{take_id}}": take_id,
+        "{{take_item}}": take_item,
+        "{{take_qty}}": take_qty,
+        "{{give_id}}": give_id,
+        "{{give_item}}": give_item,
+        "{{give_qty}}": give_qty,
+        "{{date}}": date,
+    }
+
+    for paragraph in doc.paragraphs:
+        for placeholder, value in replacements.items():
+            if placeholder in paragraph.text:
+                paragraph.text = paragraph.text.replace(placeholder, value)
+
+    for table in doc.tables:
+        for row in table.rows:
+            for cell in row.cells:
+                for placeholder, value in replacements.items():
+                    if placeholder in cell.text:
+                        cell.text = cell.text.replace(placeholder, value)
+
+    desktop = os.path.join(os.path.expanduser("~"), "Desktop")
+    filename = f"Wymiana_sprzetu_{borrower.replace(' ', '_')}_{date}.docx"
+    save_path = os.path.join(desktop, filename)
+
+    # Save document
+    doc.save(save_path)
+    return save_path
+
+    
+def utilization_items_contract(
+    items: list,
+    it_workers: list,
+    date=None
+) -> str:
+    doc = Document(r"src\templates\utilization_items_template.docx")
+
+    if date is None:
+        date = datetime.datetime.today().strftime("%Y-%m-%d")
+
+    if doc.tables:
+        table = doc.tables[0]
+        for item in items:
+            row = table.add_row()
+            row.cells[0].text = item.get("id", "")
+            row.cells[1].text = item.get("name", "")
+            row.cells[2].text = item.get("inventarization_num", "")
+            row.cells[3].text = item.get("date", "")
+            for cell in row.cells:
+                set_cell_border(cell, size="4", color="000000")
+
+    desktop = os.path.join(os.path.expanduser("~"), "Desktop")
+    filename = f"Utylizacja_sprzetu_{date}.docx"
+    save_path = os.path.join(desktop, filename)
+
+    # Save document
+    doc.save(save_path)
+    return save_path
+
+
+if __name__ == '__main__':
+    items = [
+        {
+            "id": "001",
+            "name": "Laptop Dell Latitude 5420",
+            "inventarization_num": "INV-2023-001",
+            "ndate": "2025-08-01"
+        },
+        {
+            "id": "002",
+            "name": "Monitor LG UltraFine 27''",
+            "inventarization_num": "INV-2023-002",
+            "date": "2025-08-02"
+        },
+        {
+            "id": "003",
+            "name": "Keyboard Logitech MX Keys",
+            "inventarization_num": "INV-2023-003",
+            "date": "2025-08-03"
+        }
+    ]
+
+    it_workers = [
+        "Szymon Iwaniuk",
+        "Mike Wazowski",
+    ]
+
+    utilization_items_contract(items, it_workers)
