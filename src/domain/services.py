@@ -3,6 +3,7 @@ import os
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx import Document
+from typing import List
 
 
 # Helper function for set borders of table
@@ -135,18 +136,29 @@ def change_item_contract(
     
 def utilization_items_contract(
     items: list,
-    date=None
+    participants: List[str],
+    date=None,
 ) -> str:
     doc = Document(r"src\templates\utilization_items_template.docx")
 
     if date is None:
         date = datetime.datetime.today().strftime("%Y-%m-%d")
+    
+    participants_section = ""
+    for name in participants:
+        participants_section += f"{name} " + "\n" + "." * 40 + "\n"
 
-    # Replace date
+    replacements = {
+        "{{participants_section}}": participants_section,
+        "{{date}}": date,
+    }
+
+    # Replace with provided data
     for paragraph in doc.paragraphs:
         for run in paragraph.runs:
-            if "{{date}}" in paragraph.text:
-                paragraph.text = paragraph.text.replace("{{date}}", date)
+            for placeholder, value in replacements.items():
+                if placeholder in paragraph.text:
+                    paragraph.text = paragraph.text.replace(placeholder, value)
 
     if doc.tables:
         table = doc.tables[0]

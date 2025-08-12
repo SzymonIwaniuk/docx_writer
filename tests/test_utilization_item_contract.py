@@ -27,8 +27,9 @@ def test_utilization_items_contract_content() -> None:
         }
     ]
 
+    participants = ["Szymon Iwaniuk", "Mike Wazowski"]
 
-    creation_path = utilization_items_contract(items=data)
+    creation_path = utilization_items_contract(items=data, participants=participants)
     doc = Document(creation_path)
 
     content = "\n".join([p.text for p in doc.paragraphs])
@@ -67,7 +68,8 @@ def test_utilization_items_contract_save_path() -> None:
         }
     ]
 
-    creation_path = utilization_items_contract(items=data)
+    participants = ["Szymon Iwaniuk", "Mike Wazowski"]
+    creation_path = utilization_items_contract(items=data, participants=participants)
 
     assert os.path.exists(creation_path)
     assert creation_path.endswith(".docx")
@@ -98,7 +100,9 @@ def test_utilization_items_contract_fill_with_today_date() -> None:
         }
     ]
 
-    creation_path = utilization_items_contract(items=data)
+    participants = ["Szymon Iwaniuk", "Mike Wazowski"]
+    creation_path = utilization_items_contract(items=data, participants=participants)
+
     doc = Document(creation_path)
 
     content = "\n".join([p.text for p in doc.paragraphs])
