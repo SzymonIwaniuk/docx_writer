@@ -4,6 +4,7 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx import Document
 from typing import List
+import argparse
 
 
 # Helper function for set borders of table
