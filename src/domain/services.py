@@ -5,6 +5,7 @@ from docx.oxml.ns import qn
 from docx import Document
 from typing import List
 import argparse
+import sys
 
 
 # Helper function for set borders of table
@@ -29,6 +30,13 @@ def set_cell_border(cell, size="4", color="000000"):
 
         tcBorders.append(element)
 
+# Due to development process and boundle everything into exe
+def resource_path(relative_path):
+    """Get absolute path to resource, works for dev and for PyInstaller exe."""
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
+
 
 def pass_item_contract(it_worker: str, borrower: str, id: str, item: str, quantity: str, date = None) -> str:
 
@@ -50,8 +58,8 @@ def pass_item_contract(it_worker: str, borrower: str, id: str, item: str, quanti
     str: Path of saved docx file.
     """
 
-    # Temporary hardcoded TODO
-    doc = Document(r"src\templates\pass_item_template.docx")
+    template_path = resource_path(os.path.join("templates", "pass_item_template.docx"))
+    doc = Document(template_path)
 
     if date is None:
         date = datetime.datetime.today().strftime("%Y-%m-%d")
@@ -97,7 +105,11 @@ def change_item_contract(
     give_qty: str,
     date = None
 ) -> str:
-    doc = Document(r"src\templates\change_item_template.docx")
+    
+    
+    template_path = resource_path(os.path.join("templates", "change_item_template.docx"))
+    doc = Document(template_path)
+
 
     if date is None:
         date = datetime.datetime.today().strftime("%Y-%m-%d")
@@ -140,7 +152,8 @@ def utilization_items_contract(
     participants: List[str],
     date=None,
 ) -> str:
-    doc = Document(r"src\templates\utilization_items_template.docx")
+    template_path = resource_path(os.path.join("templates", "utilization_items_template.docx"))
+    doc = Document(template_path)
 
     if date is None:
         date = datetime.datetime.today().strftime("%Y-%m-%d")
@@ -179,4 +192,4 @@ def utilization_items_contract(
     # Save document
     doc.save(save_path)
     return save_path
-  
+

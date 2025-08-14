@@ -1,5 +1,12 @@
 import argparse
-from src.domain.services import pass_item_contract, change_item_contract, utilization_items_contract
+from src.domain.services import pass_item_contract, change_item_contract, utilization_items_contract    
+
+
+## Helper functions
+# Items parser to utilization due to erors with handling json via powershell
+def parse_item(arg):
+    parts = arg.split(",")
+    return {k: v for k, v in (p.split("=", 1) for p in parts)}
 
 
 def parser():
@@ -29,8 +36,18 @@ def parser():
 
     # utilization_items_contract subcommand
     utilization_parser = subparsers.add_parser("utilization")
-    utilization_parser.add_argument("--items", required=True)
-    utilization_parser.add_argument("--participants", required=True)
+    utilization_parser.add_argument(
+                                        "--items",
+                                        nargs="+", 
+                                        type=parse_item,
+                                        required=True
+                                    )
+    utilization_parser.add_argument(
+                                        "--participants",
+                                        nargs="+", 
+                                        required=True
+                                    )
+    
     utilization_parser.add_argument("--date", required=False)
 
     args = parser.parse_args()
