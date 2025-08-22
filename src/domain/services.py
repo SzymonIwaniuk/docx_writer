@@ -85,10 +85,9 @@ def pass_item_contract(it_worker: str, borrower: str, id: str, item: str, quanti
                     if placeholder in cell.text:
                         cell.text = cell.text.replace(placeholder, value)
 
-    desktop = os.path.join(os.path.expanduser("~"), "Desktop")
     filename = f"Przekazanie_sprzetu_{borrower.replace(' ', '_')}_{date}.docx"
-    save_path = os.path.join(desktop, filename)
-
+    save_path = os.path.join(r"C:\docx_writer\attachments", filename)
+    
     # Save document
     doc.save(save_path)
     return save_path
@@ -138,9 +137,8 @@ def change_item_contract(
                     if placeholder in cell.text:
                         cell.text = cell.text.replace(placeholder, value)
 
-    desktop = os.path.join(os.path.expanduser("~"), "Desktop")
     filename = f"Wymiana_sprzetu_{borrower.replace(' ', '_')}_{date}.docx"
-    save_path = os.path.join(desktop, filename)
+    save_path = os.path.join(r"C:\docx_writer\attachments", filename)
 
     # Save document
     doc.save(save_path)
@@ -185,9 +183,8 @@ def utilization_items_contract(
             for cell in row.cells:
                 set_cell_border(cell, size="4", color="000000")
 
-    desktop = os.path.join(os.path.expanduser("~"), "Desktop")
     filename = f"Utylizacja_sprzetu_{date}.docx"
-    save_path = os.path.join(desktop, filename)
+    save_path = os.path.join(r"C:\docx_writer\attachments", filename)
 
     # Save document
     doc.save(save_path)
