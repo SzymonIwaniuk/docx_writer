@@ -4,9 +4,24 @@ from src.domain.services import pass_item_contract, change_item_contract, utiliz
 
 ## Helper functions
 # Items parser to utilization due to erors with handling json via powershell
-def parse_item(arg):
-    parts = arg.split(",")
-    return {k: v for k, v in (p.split("=", 1) for p in parts)}
+def parse_items(arg: str):
+    items = []
+    for part in arg.split(";"):
+        part = part.strip()
+        if not part:
+            continue
+        # fields: id,name,inventarization_num,date
+        id_, name, inv, date = part.split(",")
+        items.append({
+            "id": id_,
+            "name": name,
+            "inventarization_num": inv,
+            "date": date
+        })
+    return items
+
+def parse_participants(arg: str):
+    return [p.strip() for p in arg.split(";") if p.strip()]
 
 
 def parser():
@@ -36,18 +51,19 @@ def parser():
 
     # utilization_items_contract subcommand
     utilization_parser = subparsers.add_parser("utilization")
+
     utilization_parser.add_argument(
-                                        "--items",
-                                        nargs="+", 
-                                        type=parse_item,
-                                        required=True
-                                    )
+        "--items",
+        type=parse_items,
+        required=True
+    )
+
     utilization_parser.add_argument(
-                                        "--participants",
-                                        nargs="+", 
-                                        required=True
-                                    )
-    
+        "--participants",
+        type=parse_participants,
+        required=True
+    )
+
     utilization_parser.add_argument("--date", required=False)
 
     args = parser.parse_args()
