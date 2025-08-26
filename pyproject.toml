@@ -10,7 +10,7 @@ requires-python = ">=3.12,<3.14"
 dependencies = [
 	"Django==5.2.5",
 	"python-docx==1.2.0",
-    "aspose-words==25.8.0"
+    "docx2pdf==0.1.8"
 ]
 
 [tool.poetry]

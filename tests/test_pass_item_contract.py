@@ -18,21 +18,24 @@ def test_pass_item_contract_content() -> None:
     }
 
     creation_path = pass_item_contract(**data)
-    doc = Document(creation_path)
+    
+    try:
+        doc = Document(creation_path)
 
-    content = "\n".join([p.text for p in doc.paragraphs])
+        content = "\n".join([p.text for p in doc.paragraphs])
 
-    # Get data from ceils
-    for table in doc.tables:
-        for row in table.rows:
-            for cell in row.cells:
-                content += "\n" + cell.text
+        # Get data from ceils
+        for table in doc.tables:
+            for row in table.rows:
+                for cell in row.cells:
+                    content += "\n" + cell.text
 
-    for value in data.values():
-        assert value in content
+        for value in data.values():
+            assert value in content
 
+    finally:
     # Delete file
-    os.remove(creation_path)
+        os.remove(creation_path)
 
 
 def test_pass_item_contract_save_path() -> None:
@@ -46,13 +49,14 @@ def test_pass_item_contract_save_path() -> None:
     }
 
     creation_path = pass_item_contract(**data)
+    try:
+        assert os.path.exists(creation_path)
+        assert creation_path.endswith(".pdfd")
+        assert data["borrower"].replace(" ", "_") in creation_path
 
-    assert os.path.exists(creation_path)
-    assert creation_path.endswith(".docx")
-    assert data["borrower"].replace(" ", "_") in creation_path
-
-    # Delete file
-    os.remove(creation_path)
+    finally:
+        # Delete file
+        os.remove(creation_path)
 
 
 def test_pass_item_contract_fill_with_today_date() -> None:
@@ -65,13 +69,16 @@ def test_pass_item_contract_fill_with_today_date() -> None:
     }
 
     creation_path = pass_item_contract(**data)
-    doc = Document(creation_path)
-    content = "\n".join([p.text for p in doc.paragraphs])
 
-    # Today date in YYYY-MM-DD format
-    date = datetime.datetime.today().strftime("%Y-%m-%d")
+    try:
+        doc = Document(creation_path)
+        content = "\n".join([p.text for p in doc.paragraphs])
 
-    assert date in content
+        # Today date in YYYY-MM-DD format
+        date = datetime.datetime.today().strftime("%d-%m-%Y")
 
-    # Delete file
-    os.remove(creation_path)
+        assert date in content
+
+    finally:
+        # Delete file
+        os.remove(creation_path)

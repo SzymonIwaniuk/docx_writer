@@ -17,20 +17,23 @@ def test_utilization_items_contract_content() -> None:
     participants = ["Szymon Iwaniuk", "Mike Wazowski"]
 
     creation_path = utilization_items_contract(items=data, participants=participants)
-    doc = Document(creation_path)
 
-    content = "\n".join([p.text for p in doc.paragraphs])
+    try:
+        doc = Document(creation_path)
 
-    for table in doc.tables:
-        for row in table.rows:
-            for cell in row.cells:
-                content += "\n" + cell.text
+        content = "\n".join([p.text for p in doc.paragraphs])
 
-    for item in data:
-        for value in item.values():
-            assert value in content
+        for table in doc.tables:
+            for row in table.rows:
+                for cell in row.cells:
+                    content += "\n" + cell.text
 
-    os.remove(creation_path)
+        for item in data:
+            for value in item.values():
+                assert value in content
+
+    finally:
+        os.remove(creation_path)
 
 
 def test_utilization_items_contract_save_path() -> None:
@@ -41,13 +44,16 @@ def test_utilization_items_contract_save_path() -> None:
     ]
 
     participants = ["Szymon Iwaniuk", "Mike Wazowski"]
-    creation_path = utilization_items_contract(items=data, participants=participants)
 
-    assert os.path.exists(creation_path)
-    assert creation_path.endswith(".docx")
-    assert "Utylizacja_sprzetu_" in os.path.basename(creation_path)
+    try:
+        creation_path = utilization_items_contract(items=data, participants=participants)
 
-    os.remove(creation_path)
+        assert os.path.exists(creation_path)
+        assert creation_path.endswith(".pdf")
+        assert "Utylizacja_sprzetu_" in os.path.basename(creation_path)
+
+    finally:
+        os.remove(creation_path)
 
 
 def test_utilization_items_contract_fill_with_today_date() -> None:
@@ -58,13 +64,16 @@ def test_utilization_items_contract_fill_with_today_date() -> None:
     ]
 
     participants = ["Szymon Iwaniuk", "Mike Wazowski"]
-    creation_path = utilization_items_contract(items=data, participants=participants)
 
-    doc = Document(creation_path)
+    try:
+        creation_path = utilization_items_contract(items=data, participants=participants)
 
-    content = "\n".join([p.text for p in doc.paragraphs])
-    today = datetime.datetime.today().strftime("%Y-%m-%d")
+        doc = Document(creation_path)
 
-    assert today in content
+        content = "\n".join([p.text for p in doc.paragraphs])
+        today = datetime.datetime.today().strftime("%d-%m-%Y")
 
-    os.remove(creation_path)
+        assert today in content
+
+    finally:
+        os.remove(creation_path)

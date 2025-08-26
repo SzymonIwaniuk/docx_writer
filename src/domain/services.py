@@ -24,11 +24,11 @@ def pass_item_contract(it_worker: str, borrower: str, id: str, item: str, quanti
     str: Path of saved docx file.
     """
 
-    template_path = resource_path(os.path.join("templates", "pass_item_template.docx"))
+    template_path = resource_path(os.path.join("src", "templates", "pass_item_template.docx"))
     doc = Document(template_path)
 
     if date is None:
-        date = datetime.datetime.today().strftime("%Y-%m-%d")
+        date = datetime.datetime.today().strftime("%d-%m-%Y")
 
     replacements = {
         "{{it_worker}}": it_worker,
@@ -59,6 +59,7 @@ def pass_item_contract(it_worker: str, borrower: str, id: str, item: str, quanti
 
     # Conversion to pdf
     pdf_path = save_as_pdf(save_path)
+    os.remove(save_path)
     return pdf_path
 
 
@@ -74,11 +75,11 @@ def change_item_contract(
     date=None,
 ) -> str:
 
-    template_path = resource_path(os.path.join("templates", "change_item_template.docx"))
+    template_path = resource_path(os.path.join("src", "templates", "change_item_template.docx"))
     doc = Document(template_path)
 
     if date is None:
-        date = datetime.datetime.today().strftime("%Y-%m-%d")
+        date = datetime.datetime.today().strftime("%d-%m-%Y")
 
     replacements = {
         "{{it_worker}}": it_worker,
@@ -112,6 +113,7 @@ def change_item_contract(
 
     # Conversion to pdf
     pdf_path = save_as_pdf(save_path)
+    os.remove(save_path)
     return pdf_path
 
 
@@ -120,11 +122,11 @@ def utilization_items_contract(
     participants: List[str],
     date=None,
 ) -> str:
-    template_path = resource_path(os.path.join("templates", "utilization_items_template.docx"))
+    template_path = resource_path(os.path.join("src", "templates", "utilization_items_template.docx"))
     doc = Document(template_path)
 
     if date is None:
-        date = datetime.datetime.today().strftime("%Y-%m-%d")
+        date = datetime.datetime.today().strftime("%d-%m-%Y")
 
     participants_section = ""
     for name in participants:
@@ -161,4 +163,5 @@ def utilization_items_contract(
 
     # Conversion to pdf
     pdf_path = save_as_pdf(save_path)
+    os.remove(save_path)
     return pdf_path

@@ -5,16 +5,15 @@ import aspose.words as aw
 from docx import Document
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
+from docx2pdf import convert
 
 
 # Convert vile from docx to pdf via Aspose Words
 def save_as_pdf(docx_path: str) -> str:
-    """Convert a DOCX file to PDF using Aspose.Words."""
+    """Convert DOCX to PDF using Word (Windows only)."""
     pdf_path = docx_path.replace(".docx", ".pdf")
-    doc = aw.Document(docx_path)
-    doc.save(pdf_path)
+    convert(docx_path, pdf_path)
     return pdf_path
-
 
 # Helper function for set borders of table
 def set_cell_border(cell, size="4", color="000000"):
