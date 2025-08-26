@@ -2,7 +2,12 @@
 .mypy_cache
 venv
 .venv
+
 __pycache__/
+**/__pycache__
+
 ideas
 src/build/
 src/dist/
+src/docx_writer.spec
+docx_writer.spec
