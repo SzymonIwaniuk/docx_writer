@@ -1,5 +1,7 @@
 import argparse
-from src.domain.services import pass_item_contract, change_item_contract, utilization_items_contract    
+
+from src.domain.services import (change_item_contract, pass_item_contract,
+                                 utilization_items_contract)
 
 
 ## Helper functions
@@ -12,13 +14,9 @@ def parse_items(arg: str):
             continue
         # fields: id,name,inventarization_num,date
         id_, name, inv, date = part.split(",")
-        items.append({
-            "id": id_,
-            "name": name,
-            "inventarization_num": inv,
-            "date": date
-        })
+        items.append({"id": id_, "name": name, "inventarization_num": inv, "date": date})
     return items
+
 
 def parse_participants(arg: str):
     return [p.strip() for p in arg.split(";") if p.strip()]
@@ -52,17 +50,9 @@ def parser():
     # utilization_items_contract subcommand
     utilization_parser = subparsers.add_parser("utilization")
 
-    utilization_parser.add_argument(
-        "--items",
-        type=parse_items,
-        required=True
-    )
+    utilization_parser.add_argument("--items", type=parse_items, required=True)
 
-    utilization_parser.add_argument(
-        "--participants",
-        type=parse_participants,
-        required=True
-    )
+    utilization_parser.add_argument("--participants", type=parse_participants, required=True)
 
     utilization_parser.add_argument("--date", required=False)
 
@@ -90,7 +80,7 @@ def parser():
             args.give_qty,
             args.date,
         )
-    
+
     elif args.command == "utilization":
         utilization_items_contract(
             args.items,
@@ -98,5 +88,6 @@ def parser():
             args.date,
         )
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     parser()

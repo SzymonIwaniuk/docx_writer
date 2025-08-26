@@ -6,11 +6,11 @@ authors = [
     {name = "SzymonIwaniuk",email = "s.f.iwaniuk@gmail.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.12,<3.15"
+requires-python = ">=3.12,<3.14"
 dependencies = [
 	"Django==5.2.5",
 	"python-docx==1.2.0",
-    "pyinstaller==6.15.0",
+    "aspose-words==25.8.0"
 ]
 
 [tool.poetry]
@@ -26,7 +26,6 @@ black = "^25.1.0"
 pytest = "^8.3.5"
 flake8 = "^7.0.0"
 flake8-pyproject = "^1.2.3"
-pyinstaller = "^6.15.0"
 
 [tool.pytest.ini_options]
 testpaths = [
@@ -34,7 +33,7 @@ testpaths = [
 ]
 
 pythonpath = [
-    "src/",
+    "src",
 ]
 
 [tool.flake8]

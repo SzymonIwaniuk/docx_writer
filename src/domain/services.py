@@ -1,45 +1,11 @@
 import datetime
 import os
-from docx.oxml import OxmlElement
-from docx.oxml.ns import qn
 from docx import Document
 from typing import List
-import argparse
-import sys
+from src.domain.helper import save_as_pdf, set_cell_border, resource_path
 
 
-# Helper function for set borders of table
-def set_cell_border(cell, size="4", color="000000"):
-    """
-    Set cell borders to 1 pt.
-    """
-    tc = cell._tc
-    tcPr = tc.get_or_add_tcPr()
-
-    for border_name in ["top", "left", "bottom", "right"]:
-        element = OxmlElement(f"w:{border_name}")
-        element.set(qn("w:val"), "single")
-        element.set(qn("w:sz"), size)
-        element.set(qn("w:space"), "0")
-        element.set(qn("w:color"), color)
-        tcBorders = tcPr.find(qn("w:tcBorders"))
-
-        if tcBorders is None:
-            tcBorders = OxmlElement("w:tcBorders")
-            tcPr.append(tcBorders)
-
-        tcBorders.append(element)
-
-# Due to development process and boundle everything into exe
-def resource_path(relative_path):
-    """Get absolute path to resource, works for dev and for PyInstaller exe."""
-    if hasattr(sys, '_MEIPASS'):
-        return os.path.join(sys._MEIPASS, relative_path)
-    return os.path.join(os.path.abspath("."), relative_path)
-
-
-def pass_item_contract(it_worker: str, borrower: str, id: str, item: str, quantity: str, date = None) -> str:
-
+def pass_item_contract(it_worker: str, borrower: str, id: str, item: str, quantity: str, date=None) -> str:
     """
     Generates a Word document contract for passing IT equipment to a borrower.
 
@@ -87,10 +53,13 @@ def pass_item_contract(it_worker: str, borrower: str, id: str, item: str, quanti
 
     filename = f"Przekazanie_sprzetu_{borrower.replace(' ', '_')}_{date}.docx"
     save_path = os.path.join(r"C:\docx_writer\attachments", filename)
-    
+
     # Save document
     doc.save(save_path)
-    return save_path
+
+    # Conversion to pdf
+    pdf_path = save_as_pdf(save_path)
+    return pdf_path
 
 
 def change_item_contract(
@@ -102,13 +71,11 @@ def change_item_contract(
     give_id: str,
     give_item: str,
     give_qty: str,
-    date = None
+    date=None,
 ) -> str:
-    
-    
+
     template_path = resource_path(os.path.join("templates", "change_item_template.docx"))
     doc = Document(template_path)
-
 
     if date is None:
         date = datetime.datetime.today().strftime("%Y-%m-%d")
@@ -142,9 +109,12 @@ def change_item_contract(
 
     # Save document
     doc.save(save_path)
-    return save_path
 
-    
+    # Conversion to pdf
+    pdf_path = save_as_pdf(save_path)
+    return pdf_path
+
+
 def utilization_items_contract(
     items: list,
     participants: List[str],
@@ -155,7 +125,7 @@ def utilization_items_contract(
 
     if date is None:
         date = datetime.datetime.today().strftime("%Y-%m-%d")
-    
+
     participants_section = ""
     for name in participants:
         participants_section += f"{name} " + "\n" + "." * 40 + "\n"
@@ -188,5 +158,7 @@ def utilization_items_contract(
 
     # Save document
     doc.save(save_path)
-    return save_path
 
+    # Conversion to pdf
+    pdf_path = save_as_pdf(save_path)
+    return pdf_path

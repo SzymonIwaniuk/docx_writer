@@ -1,30 +1,17 @@
-import pytest
-import os
 import datetime
-from src.domain.services import utilization_items_contract
+import os
+
+import pytest
 from docx import Document
 
+from src.domain.services import utilization_items_contract
 
-def test_utilization_items_contract_content() -> None:    
+
+def test_utilization_items_contract_content() -> None:
     data = [
-        {
-            "id": "K123",
-            "name": "laptop1",
-            "inventarization_num": "1077",
-            "date": "2025-08-01"
-        },
-        {
-            "id": "K133",
-            "name": "laptop2",
-            "inventarization_num": "1078",
-            "date": "2025-08-02"
-        },
-        {
-            "id": "K211",
-            "name": "laptop3",
-            "inventarization_num": "1079",
-            "date": "2025-08-03"
-        }
+        {"id": "K123", "name": "laptop1", "inventarization_num": "1077", "date": "2025-08-01"},
+        {"id": "K133", "name": "laptop2", "inventarization_num": "1078", "date": "2025-08-02"},
+        {"id": "K211", "name": "laptop3", "inventarization_num": "1079", "date": "2025-08-03"},
     ]
 
     participants = ["Szymon Iwaniuk", "Mike Wazowski"]
@@ -48,24 +35,9 @@ def test_utilization_items_contract_content() -> None:
 
 def test_utilization_items_contract_save_path() -> None:
     data = [
-        {
-            "id": "K123",
-            "name": "laptop1",
-            "inventarization_num": "1077",
-            "date": "2025-08-01"
-        },
-        {
-            "id": "K133",
-            "name": "laptop2",
-            "inventarization_num": "1078",
-            "date": "2025-08-02"
-        },
-        {
-            "id": "K211",
-            "name": "laptop3",
-            "inventarization_num": "1079",
-            "date": "2025-08-03"
-        }
+        {"id": "K123", "name": "laptop1", "inventarization_num": "1077", "date": "2025-08-01"},
+        {"id": "K133", "name": "laptop2", "inventarization_num": "1078", "date": "2025-08-02"},
+        {"id": "K211", "name": "laptop3", "inventarization_num": "1079", "date": "2025-08-03"},
     ]
 
     participants = ["Szymon Iwaniuk", "Mike Wazowski"]
@@ -80,24 +52,9 @@ def test_utilization_items_contract_save_path() -> None:
 
 def test_utilization_items_contract_fill_with_today_date() -> None:
     data = [
-        {
-            "id": "K123",
-            "name": "laptop1",
-            "inventarization_num": "1077",
-            "date": "2025-08-01"
-        },
-        {
-            "id": "K133",
-            "name": "laptop2",
-            "inventarization_num": "1078",
-            "date": "2025-08-02"
-        },
-        {
-            "id": "K211",
-            "name": "laptop3",
-            "inventarization_num": "1079",
-            "date": "2025-08-03"
-        }
+        {"id": "K123", "name": "laptop1", "inventarization_num": "1077", "date": "2025-08-01"},
+        {"id": "K133", "name": "laptop2", "inventarization_num": "1078", "date": "2025-08-02"},
+        {"id": "K211", "name": "laptop3", "inventarization_num": "1079", "date": "2025-08-03"},
     ]
 
     participants = ["Szymon Iwaniuk", "Mike Wazowski"]

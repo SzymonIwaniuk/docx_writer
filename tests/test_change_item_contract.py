@@ -1,8 +1,10 @@
-import pytest
-import os
 import datetime
-from src.domain.services import change_item_contract
+import os
+
+import pytest
 from docx import Document
+
+from src.domain.services import change_item_contract
 
 
 def test_change_item_contract_content() -> None:
@@ -15,7 +17,7 @@ def test_change_item_contract_content() -> None:
         "give_id": "K321",
         "give_item": "Laptop Dell 12345AB",
         "give_qty": "1",
-        "date": "2025-08-11"
+        "date": "2025-08-11",
     }
 
     creation_path = change_item_contract(**data)
@@ -44,7 +46,7 @@ def test_change_item_contract_save_path() -> None:
         "give_id": "K321",
         "give_item": "Laptop Dell 12345AB",
         "give_qty": "1",
-        "date": "2025-08-11"
+        "date": "2025-08-11",
     }
 
     creation_path = change_item_contract(**data)
@@ -67,7 +69,7 @@ def test_change_item_contract_fill_with_today_date() -> None:
         "give_id": "K321",
         "give_item": "Laptop Dell 12345AB",
         "give_qty": "1",
-        "date": None
+        "date": None,
     }
 
     creation_path = change_item_contract(**data)
@@ -79,5 +81,3 @@ def test_change_item_contract_fill_with_today_date() -> None:
 
     # Delete file
     # os.remove(creation_path)
-
-
