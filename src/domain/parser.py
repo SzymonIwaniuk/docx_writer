@@ -4,7 +4,7 @@ from src.domain.services import (change_item_contract, pass_item_contract,
                                  utilization_items_contract)
 
 
-## Helper functions
+## Helper functions # noqa
 # Items parser to utilization due to erors with handling json via powershell
 def parse_items(arg: str):
     items = []

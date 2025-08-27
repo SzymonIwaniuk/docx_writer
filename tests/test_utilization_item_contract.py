@@ -1,7 +1,6 @@
 import datetime
 import os
 
-import pytest
 from docx import Document
 
 from src.domain.services import utilization_items_contract

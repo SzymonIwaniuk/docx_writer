@@ -1,27 +1,30 @@
 import datetime
 import os
-from docx import Document
 from typing import List
-from src.domain.helper import save_as_pdf, set_cell_border, resource_path
+
+from docx import Document
+
+from src.domain.helper import resource_path, save_as_pdf, set_cell_border
 
 
 def pass_item_contract(it_worker: str, borrower: str, id: str, item: str, quantity: str, date=None) -> str:
     """
-    Generates a Word document contract for passing IT equipment to a borrower.
+    Generates a Word document contract for passing IT equipment to a borrower and convert to pdf.
 
     This function loads a predefined Word template, replaces placeholders with provided values,
-    and saves the filled document to the user's desktop with a filename based on the borrower's name and date.
+    and saves the filled document converted to pdf to the C:/docx_wrtier/attachments with a filename
+    based on the borrower's name and date.
 
     Args:
         it_worker (str): Name of the IT worker handing over the item.
         borrower (str): Name of the person receiving the item.
-        date (Optional[str]): Date of the handover. If None, defaults to today's date in YYYY-MM-DD format.
+        date (Optional[str]): Date of the handover. If None, defaults to today's date in DD-MM- format.
         id (str): Identifier for the transaction or item.
         item (str): Description of the item being handed over.
         quantity (str): Quantity of the item being handed over.
 
     Returns:
-    str: Path of saved docx file.
+    str: Path of saved pdf file.
     """
 
     template_path = resource_path(os.path.join("src", "templates", "pass_item_template.docx"))
@@ -74,6 +77,28 @@ def change_item_contract(
     give_qty: str,
     date=None,
 ) -> str:
+    """
+    Generates a Word document contract for exchanging IT equipment between a borrower and IT worker,
+    then converts it to PDF.
+
+    This function loads a predefined Word template, replaces placeholders with provided values,
+    and saves the filled document as a PDF in `C:/docx_writer/attachments`.
+    The filename is based on the borrower's name and the date.
+
+    Args:
+        it_worker (str): Name of the IT worker facilitating the exchange.
+        borrower (str): Name of the person exchanging items.
+        take_id (str): Identifier for the item being taken.
+        take_item (str): Description of the item being taken.
+        take_qty (str): Quantity of the item being taken.
+        give_id (str): Identifier for the item being given.
+        give_item (str): Description of the item being given.
+        give_qty (str): Quantity of the item being given.
+        date (Optional[str]): Date of the exchange. Defaults to today's date (DD-MM-YYYY).
+
+    Returns:
+        str: Path of the saved PDF file.
+    """
 
     template_path = resource_path(os.path.join("src", "templates", "change_item_template.docx"))
     doc = Document(template_path)
@@ -122,6 +147,26 @@ def utilization_items_contract(
     participants: List[str],
     date=None,
 ) -> str:
+    """
+    Generates a Word document contract for the utilization of IT equipment and converts it to PDF.
+
+    This function loads a predefined Word template, fills it with participant information and
+    a table of items to be utilized, then saves the completed document as a PDF in
+    `C:/docx_writer/attachments`. The filename is based on the date.
+
+    Args:
+        items (list[dict]): List of items for utilization. Each item dictionary should contain:
+            - id (str): Identifier of the item.
+            - name (str): Name or description of the item.
+            - inventarization_num (str): Inventory number of the item.
+            - date (str): Associated date for the item.
+        participants (List[str]): Names of participants overseeing the utilization process.
+        date (Optional[str]): Date of the utilization. Defaults to today's date (DD-MM-YYYY).
+
+    Returns:
+        str: Path of the saved PDF file.
+    """
+
     template_path = resource_path(os.path.join("src", "templates", "utilization_items_template.docx"))
     doc = Document(template_path)
 

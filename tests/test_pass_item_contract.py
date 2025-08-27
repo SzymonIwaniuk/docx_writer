@@ -1,7 +1,6 @@
 import datetime
 import os
 
-import pytest
 from docx import Document
 
 from src.domain.services import pass_item_contract
@@ -18,7 +17,7 @@ def test_pass_item_contract_content() -> None:
     }
 
     creation_path = pass_item_contract(**data)
-    
+
     try:
         doc = Document(creation_path)
 
@@ -34,7 +33,7 @@ def test_pass_item_contract_content() -> None:
             assert value in content
 
     finally:
-    # Delete file
+        # Delete file
         os.remove(creation_path)
 
 

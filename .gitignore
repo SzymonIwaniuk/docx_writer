@@ -3,10 +3,15 @@
 venv
 .venv
 
+
 __pycache__/
 **/__pycache__
 
-ideas
+idea
+
+# build
+build/
+dist/
 src/build/
 src/dist/
 src/docx_writer.spec

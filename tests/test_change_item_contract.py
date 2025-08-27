@@ -1,7 +1,6 @@
 import datetime
 import os
 
-import pytest
 from docx import Document
 
 from src.domain.services import change_item_contract
@@ -89,4 +88,4 @@ def test_change_item_contract_fill_with_today_date() -> None:
     finally:
         # Delete file
         # os.remove(creation_path)
-        pass 
+        pass
